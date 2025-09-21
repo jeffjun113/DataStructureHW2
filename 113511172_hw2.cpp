@@ -54,20 +54,14 @@
             else i--;
         }
 
-        cout<< "Insertion done." << endl;
-
         for(int i = 0; i < test_count; i++){
             int key = rand() % max_int + 1;
             test_s_list.list_ins_del(key);
         }
-        cout<< "Insertion and Deletion done." << endl;
 
         test_s_list.list_walk();
-        cout<< "Walk done." << endl;
         test_s_list.list_reverse();
-        cout<< "Reverse done." << endl;
         test_s_list.list_walk();
-        cout<< "Second Walk done." << endl;
     }
 
     void xlist_test(xor_list& test_x_list) {
@@ -90,18 +84,15 @@
                 i--;
             }
         }
-        cout << "XOR Insertion done." << endl;
+
         for (int i = 0; i < test_count; i++) {
             int key = rand() % max_int + 1;
             test_x_list.list_ins_del(key);
         }
-        cout << "XOR Insertion and Deletion done." << endl;
+
         test_x_list.list_walk();
-        cout << "XOR Walk done." << endl;
         test_x_list.list_reverse();
-        cout << "XOR Reverse done." << endl;
         test_x_list.list_walk();
-        cout << "XOR Second Walk done." << endl;
     }
 
     void single_list:: list_insert(Node* new_node, Node* prev_node){
@@ -112,7 +103,7 @@
             new_node->set_stored_pointer(prev_node->get_stored_pointer());
             prev_node->set_stored_pointer(new_node);
         }
-        //cout<< "Inserted " << new_node->get_data() << endl;
+        cout<< "Inserted " << new_node->get_data() << endl;
     }
 
     void xor_list::list_insert(Node* new_node, Node* prev_node){
@@ -152,15 +143,15 @@
 
             new_node->set_stored_pointer(XOR(prev_node, next_node_of_prev));
 
-            prev_node->set_stored_pointer(XOR(prev_node->get_stored_pointer(), next_node_of_prev)); // Remove old next
-            prev_node->set_stored_pointer(XOR(prev_node->get_stored_pointer(), new_node));         // Add new node
+            prev_node->set_stored_pointer(XOR(prev_node->get_stored_pointer(), next_node_of_prev)); 
+            prev_node->set_stored_pointer(XOR(prev_node->get_stored_pointer(), new_node));
 
             if (next_node_of_prev != nullptr) {
-                next_node_of_prev->set_stored_pointer(XOR(next_node_of_prev->get_stored_pointer(), prev_node)); // Remove old prev
-                next_node_of_prev->set_stored_pointer(XOR(next_node_of_prev->get_stored_pointer(), new_node)); // Add new node
+                next_node_of_prev->set_stored_pointer(XOR(next_node_of_prev->get_stored_pointer(), prev_node));
+                next_node_of_prev->set_stored_pointer(XOR(next_node_of_prev->get_stored_pointer(), new_node)); 
             }
         }
-        //cout<< "Inserted " << new_node->get_data() << endl;
+        cout<< "Inserted " << new_node->get_data() << endl;
     }
 
     void single_list:: list_delete(Node* del_node)
@@ -181,55 +172,33 @@
                 delete del_node;
             }
         }
-        //cout<< "Deleted " << data << endl;
+        cout<< "Deleted " << data << endl;
     }
 
-    // In your .cpp file, replace your xor_list::list_delete with this corrected version.
 void xor_list::list_delete(Node* n) {
     if (n == nullptr) {
         return;
     }
 
-    // Mark the data value as "not used".
-    // This is the value the user *thinks* they are deleting.
     int data_to_delete = n->get_data();
     used_int_xlist[data_to_delete - 1] = false;
 
-    // The node we will physically delete from memory.
-    // Initially, we assume it's the node we were given.
     Node* node_to_physically_delete = n;
 
-    // THE OPTIMIZATION: If n is not the head, transform the problem.
     if (n != head) {
-        // 1. Swap the data. Now the data we want to keep is in `n`, and the
-        //    data we want to discard is at the head.
         n->set_data(head->get_data());
-
-        // 2. The node we actually need to remove from memory is now the original head.
         node_to_physically_delete = head;
     }
 
-    // --- UNIFIED O(1) HEAD DELETION LOGIC ---
-    // At this point, `node_to_physically_delete` is guaranteed to be the
-    // node at the front of the list whose data needs to be discarded.
-
-    // Find the successor of the node we're deleting.
     Node* successor = node_to_physically_delete->get_stored_pointer();
 
-    // If the successor exists, we must update its link to remove its reference
-    // to the node we are about to delete.
     if (successor != nullptr) {
-        // Successor's old link was: XOR(node_to_physically_delete, its_next_node)
-        // Its new link must be:      XOR(nullptr, its_next_node)
-        // We achieve this by XORing it with the node we are deleting.
         successor->set_stored_pointer(XOR(successor->get_stored_pointer(), node_to_physically_delete));
     }
 
-    // The new head of the list is the successor.
     head = successor;
 
-    // Finally, delete the node we targeted for removal.
-    //cout<< "Deleted " << data_to_delete << endl;
+    cout<< "Deleted " << data_to_delete << endl;
     delete node_to_physically_delete;
 }
 
@@ -240,27 +209,27 @@ void xor_list::list_delete(Node* n) {
 
     void single_list:: list_walk()
     {
-        //cout << "List: ";
+        cout << "List: ";
         Node* current = head;
         while (current != nullptr) {
-            //cout << current->get_data() ;
+            cout << current->get_data() ;
             current = current->get_stored_pointer();
             if(current == nullptr) break;
-            else {}//cout << ", ";
+            else {}cout << ", ";
         }
-        //cout << endl;
+        cout << endl;
     }
 
     void xor_list::list_walk()
     {
-        //cout << "List: ";
+        cout << "List: ";
         Node* current = head;
         Node* prev = nullptr;
         Node* next;
 
         int count = 0;
         while (current != nullptr) {
-            //cout << current->get_data() ;
+            cout << current->get_data() ;
             count++;
 
             next = XOR(prev, current->get_stored_pointer());
@@ -268,9 +237,9 @@ void xor_list::list_delete(Node* n) {
             current = next;
             if(current == nullptr) break;
             else{} 
-                //cout << ", ";
+                cout << ", ";
         }
-        //cout << endl;
+        cout << endl;
     }
 
 
@@ -311,7 +280,6 @@ void xor_list::list_delete(Node* n) {
             Node* current = head;
             Node* prev = nullptr;
 
-            // Inevitable O(N) traversal to find the node.
             while (current != nullptr && current->get_data() != key) {
                 Node* next = XOR(prev, current->get_stored_pointer());
                 prev = current;
@@ -319,7 +287,6 @@ void xor_list::list_delete(Node* n) {
             }
 
             if (current != nullptr) {
-                // This now calls our super-fast O(1) delete function.
                 list_delete(current); 
             }
 
@@ -397,20 +364,20 @@ void xor_list::list_delete(Node* n) {
 
     void xor_list::list_search(int key){
         if (used_int_xlist[key - 1]) {
-            //cout << "Found " << key << endl;
+            cout << "Found " << key << endl;
             return;
         } else {
-            //cout << key << " not found" << endl;
+            cout << key << " not found" << endl;
             return;
         }
     }
 
     void single_list::list_search(int key){
         if (used_int_slist[key - 1]) {
-            //cout << "Found " << key << endl;
+            cout << "Found " << key << endl;
             return;
         } else {
-            //cout << key << " not found" << endl;
+            cout << key << " not found" << endl;
             return;
         }
     }
