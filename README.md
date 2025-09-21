@@ -9,7 +9,7 @@ Use `make clean` to clear all the execution file
 ---
 
 `test.log` is from windows powershell by `./113511172_hw2 >> test.log`  
-`test_linux.log` is from linux terminal by `./113511172_hw2 >> test.log`  
+`test_linux.log` is from linux terminal by `./113511172_hw2 >> test_linux.log`  
 ---
 Before Optimization (On Local Machine)  
 ```
