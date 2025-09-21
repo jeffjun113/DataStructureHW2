@@ -11,6 +11,7 @@ public:
     Node* get_stored_pointer() { return stored_pointer; }
     void set_stored_pointer(Node* next) { stored_pointer = next; }
     int get_data() { return data; }
+    void set_data(int new_data) { data = new_data; }
 };
 
 Node::Node(int val) : data(val), stored_pointer(nullptr){}
